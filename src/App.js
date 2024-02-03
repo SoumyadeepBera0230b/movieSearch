@@ -2,6 +2,7 @@ import React, {useState, CSSProperties} from 'react'
 import {ClipLoader, PulseLoader} from "react-spinners";
 import axios from "axios"
 
+
 const override: CSSProperties = {
   borderColor: "green",
 };
@@ -13,6 +14,8 @@ const App = () => {
   let [see, setSee] = useState(false)
   let [count, setCount] = useState(true)
   let [loading, setLoading] = useState(false)
+  let [clicked, setClicked] = useState(false)
+  let [hover, setHover] = useState(false)
   
   let url = `https://www.omdbapi.com/?apikey=4768ae48&s=${movieName}`
 
@@ -51,10 +54,10 @@ const App = () => {
       
     <div className="navbar-container">
         <div className="navbar-inner-container">
-                <div clasName="navbar-right-container">
-                    <h2>MyTube</h2>
+                <div className="navbar-right-container">
+                    <h2>Movie Search</h2>
                 </div>
-                <div clasName="navbar-left-container">
+                <div className="navbar-left-container">
                   <form onSubmit={fetchData}>
                     <input onChange={handleChange} className="search" type="text" placeholder="Search any movies here"/>
                     
@@ -68,8 +71,8 @@ const App = () => {
                 </div>
         </div>
         { !count?
-        (see && typeof arr !== "undefined"? 
-        (loading?
+        (see && typeof arr !== "undefined" && typeof name !== "undefined"? 
+        (loading ?
         <div className="loading-container">
           <ClipLoader
           loading={loading}
@@ -82,31 +85,39 @@ const App = () => {
           <p>Loading...</p>
         </div>
         :
-        <div>
+        <div className="body">
         <div className="result-title">
-          <h2 >Here are the ({arr.length}) results for "{name.toUpperCase()}"</h2>
+        <h2 >Here are the ({arr.length}) results for "{name.toUpperCase()}"</h2>
         </div>
-        <div className="display-movie">
+        <div className="display-movie" >
 
                 {
-                    arr.map((index) => {
+                    arr.map((index, i) => {
                         return (
                             
                               index.Poster !== "N/A"&&
-                                    <div className="display-img">
-                                    <img src={index.Poster} alt=""/>
-              
-                              </div>
+                                    <div className="display-img" id={i} onClick={()=> {setClicked(true)}} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+                                      <a target="_blank" href={(clicked)&&`https://www.imdb.com/title/${index.imdbID}/`}>
+                              
+                                      <img src={index.Poster} alt="No Movie poster"/>
+
+                                      </a>
+                                    </div>
                             
                         )
                     })
                 }
         </div>
         </div>) : 
-        <div style={{width: "80%", margin: "auto"}}>Wrong Input value</div>)
+        <h3 className="details">Wrong Movie Name is entered..</h3>)
         :
-        <div>Please enter the value</div>
+        <h3 className="details">Please search for a movie. E.g: Avengers, Naruto, etc...</h3>
         }
+      <footer className="footer">
+        <div>
+          <h4>Made 🏳️‍🌈 by</h4><h4> {"Soumyadeep Bera".toUpperCase()} ❤️</h4>
+        </div>
+      </footer>
     </div>
       </>
   )
