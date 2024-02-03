@@ -81,14 +81,14 @@ code {
 
 .display-movie {
   /* background-color: aqua; */
-  width: 75%;
+  width: 82%;
   margin: auto;
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
   flex-flow: row wrap;
   row-gap: 30px;
-  column-gap: 10px;
+  column-gap: 5px;
   padding: 20px;
 }
 
