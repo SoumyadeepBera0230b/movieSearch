@@ -1,6 +1,9 @@
-import React, {useState, CSSProperties} from 'react'
+import React, {useState, CSSProperties, useEffect} from 'react'
 import {ClipLoader, PulseLoader} from "react-spinners";
 import axios from "axios"
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import {useNavigate} from "react-router-dom"
 
 
 const override: CSSProperties = {
@@ -8,6 +11,10 @@ const override: CSSProperties = {
 };
 
 const App = () => {
+  const navigator = useNavigate();
+  useEffect(()=> {
+    AOS.init({duration: 1000});
+  }, [])
   let [movieName, setMovieName] = useState()
   let [name, setName] = useState()
   let [arr, setArr] = useState([])
@@ -55,13 +62,13 @@ const App = () => {
     <div className="navbar-container">
         <div className="navbar-inner-container">
                 <div className="navbar-right-container">
-                    <h2>Movie Search</h2>
+                    <h2 onClick={() => navigator("/home")}>Movie Search</h2>
                 </div>
                 <div className="navbar-left-container">
                   <form onSubmit={fetchData}>
                     <input onChange={handleChange} className="search" type="text" placeholder="Search any movies here"/>
                     
-                      <button type="submit" className="search btn" style={loading?{backgroundColor: "gray"}: null}>
+                      <button type="submit" className="search btn" style={loading?{backgroundColor: "#FFE7E7", color: "black"}: null}>
                         {loading ? "loading...": "Search"}
                         </button>
                     
@@ -96,10 +103,10 @@ const App = () => {
                         return (
                             
                               index.Poster !== "N/A"&&
-                                    <div className="display-img" id={i} onClick={()=> {setClicked(true)}} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+                                    <div data-AOS={"fade-left"} className="display-img" id={i} onClick={()=> {setClicked(true)}} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
                                       <a target="_blank" href={(clicked)&&`https://www.imdb.com/title/${index.imdbID}/`}>
                               
-                                      <img src={index.Poster} alt="No Movie poster"/>
+                                        <img src={index.Poster} alt="No Movie poster"/>
 
                                       </a>
                                     </div>
@@ -109,14 +116,23 @@ const App = () => {
                 }
         </div>
         </div>) : 
-        <h3 className="details">Wrong Movie Name is entered..</h3>)
+        <div className="body">
+        <h3 className="details">Wrong Movie Name is entered..</h3>
+        </div>)
         :
-        <h3 className="details">Please search for a movie. E.g: Avengers, Naruto, etc...</h3>
-        }
-      <footer className="footer">
-        <div>
-          <h4>Made 🏳️‍🌈 by</h4><h4> {"Soumyadeep Bera".toUpperCase()} ❤️</h4>
+        <div className="body">
+        <h3 className="details">Please search for a movie, e.g: Avengers, Naruto, etc...</h3>
         </div>
+      }
+      <footer className="footer">
+          <div data-AOS="fade-right">
+            <h4 >Made 🏳️‍🌈 by:</h4>
+
+          </div>
+          <div data-AOS="fade-left">
+            <h4 title="this is the developer">SOUMYADEEP BERA</h4>
+
+          </div>
       </footer>
     </div>
       </>
