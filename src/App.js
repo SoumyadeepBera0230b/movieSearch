@@ -62,7 +62,7 @@ const App = () => {
     <div className="navbar-container">
         <div className="navbar-inner-container">
                 <div className="navbar-right-container">
-                    <h2 onClick={() => navigator("/home")}>Movie Search</h2>
+                    <h2 onClick={() => navigator("/movieSearch/home")}>Movie Search</h2>
                 </div>
                 <div className="navbar-left-container">
                   <form onSubmit={fetchData}>
